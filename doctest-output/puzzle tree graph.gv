@@ -1,0 +1,11 @@
+digraph "puzzle tree graph" {
+	graph [nodesep=0.3]
+	node [fixedsize=true height=2 width=2]
+	edge [len=1]
+	size="5, 5!"
+	<tree.TreeNode object at 0x000001AD1C9AB940> [label="[120]\n[453]\n[786]\n" color=green fixedsize=True shape=square width=0.2]
+	<tree.TreeNode object at 0x000001AD1C9ABB20> [label="[120]\n[453]\n[786]\n" color=red fixedsize=True shape=square width=0.3]
+	<tree.TreeNode object at 0x000001AD1C9AB940> -> <tree.TreeNode object at 0x000001AD1C9ABB20>:n
+	<tree.TreeNode object at 0x000001AD1C9ABA90> [label="[120]\n[453]\n[786]\n" color=red fixedsize=True shape=square width=0.3]
+	<tree.TreeNode object at 0x000001AD1C9AB940> -> <tree.TreeNode object at 0x000001AD1C9ABA90>:n
+}

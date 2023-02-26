@@ -12,3 +12,4 @@ FPS = 60
 title = "Sliding Puzzle Game"
 TILESIZE = 128
 GAME_SIZE = 3
+GRAPH_SIZE = "5, 5!"

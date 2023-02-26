@@ -3,6 +3,8 @@ import random
 import time
 from sprite import *
 from settings import *
+from graph import *
+from ai_logic import *
 
 
 class Game:
@@ -18,6 +20,7 @@ class Game:
         self.start_timer = False
         self.elapsed_time = 0
         self.high_score = float(self.get_high_scores()[0])
+
 
     def get_high_scores(self):
         with open("high_score.txt", "r") as file:
@@ -95,6 +98,7 @@ class Game:
         self.buttons_list.append(Button(500, 100, 200, 50, "Shuffle", WHITE, BLACK))
         self.buttons_list.append(Button(500, 170, 200, 50, "Reset", WHITE, BLACK))
         self.draw_tiles()
+        self.game_AI = AI(self.tiles_grid, self.tiles_grid_completed)
 
     def run(self):
         self.playing = True
@@ -151,8 +155,18 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit(0)
+            if event.type == pygame.KEYDOWN:  # indent properly...
+                print(event.unicode)
+                print(ord('c'))
+                if event.unicode == "c":
+                    print("c was pressed")
+                    tree = Graph(self.tiles_grid)
+                    tree.draw()
+                    tree.display()
+                    self.game_AI.find_moves(self.tiles_grid)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                print("mouse")
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 for row, tiles in enumerate(self.tiles):
                     for col, tile in enumerate(tiles):
@@ -180,7 +194,11 @@ class Game:
                             self.new()
 
 
+
+
+
+
 game = Game()
-while True:
-    game.new()
-    game.run()
+#i think it just ends here, and doesn't continue in the while loop, no need to put one
+game.new()
+game.run()
