@@ -2,13 +2,12 @@ import numpy as np
 from graphviz import Digraph
 from settings import *
 class TreeNode:
-    def __init__(self, key):
+    def __init__(self, key, heuristic, parent = None):
         self.key = key
-        self.parent = None
+        self.parent = parent #make sure to set this as parent, not none
         self.children = [] #each node can have multiple children
-        self.optimizer = None
-        self.reward = None #reward is for determining the outcome of the game
-        self.heuristic = None
+        self.heuristic = heuristic #make sure to set this as heuristic
+        self.color = "red"
     def to_string(self):
         return str(self.key)
     def print(self):
@@ -72,26 +71,15 @@ class PuzzleTree():
                 dot.attr(size=GRAPH_SIZE)  # adjust size
 
                 # some formatting
-                if (tree.reward != None):
-                    node_value = tree.key + "\n\n" + str(tree.reward)
-                else:
-                    node_value = tree.key
-                dot.node(name=str(tree), label=str(node_value),
-                         color="green", shape="square", fixedsize="True",
+                node_value = tree.key
+                dot.node(name=str(tree), label=self.board_as_string(node_value),
+                         color=tree.color, shape="square", fixedsize="True",
                          width="0.2")  # adding a node shape helps with layout
             # Add nodes recursively
             for child in tree.children:
-                if (child.optimzer == 'max'):
-                    col = "green"
-                else:
-                    col = "red"
-                if (child.reward != None):
-                    node_value = child.key + "\n\n" + str(
-                        child.reward)  # add this here so we can get the values of the nodes from minimax
-                else:
-                    node_value = child.key
-                dot.node(name=str(child), label=str(node_value),
-                         color=col, shape="square", fixedsize="True",
+                node_value = child.key
+                dot.node(name=str(child), label= self.board_as_string(node_value),
+                         color=child.color, shape="square", fixedsize="True",
                          width="0.3")  # adding a node shape helps with layout
                 test2 = str(child) + ":n"  # use port to make edges look better
                 dot.edge(str(tree), str(test2))
@@ -100,3 +88,10 @@ class PuzzleTree():
             return dot
 
         return add_nodes_edges(tree)
+    def board_as_string(self, board):
+        board_string = ""
+        for row in board:
+            numbers = "[" + ''.join(str(x) for x in row) + "]"
+            board_string += numbers
+            board_string += "\\n" #for some reason, have to use double backslash on pycharm!! compared to colab
+        return board_string

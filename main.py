@@ -20,6 +20,8 @@ class Game:
         self.start_timer = False
         self.elapsed_time = 0
         self.high_score = float(self.get_high_scores()[0])
+        self.path = []
+        self.solution_node = None
 
 
     def get_high_scores(self):
@@ -156,14 +158,31 @@ class Game:
                 pygame.quit()
                 quit(0)
             if event.type == pygame.KEYDOWN:  # indent properly...
-                print(event.unicode)
-                print(ord('c'))
+                # print(event.unicode)
+                # print(ord('c'))
                 if event.unicode == "c":
                     print("c was pressed")
-                    tree = Graph(self.tiles_grid)
-                    tree.draw()
-                    tree.display()
-                    self.game_AI.find_moves(self.tiles_grid)
+                    #tree = Graph(self.tiles_grid)
+                    #tree.draw()
+                    #tree.display()
+                    # new_board = self.game_AI.find_moves(self.tiles_grid)
+                    # print("NEWBOARD is ", new_board)
+                    # self.tiles_grid = new_board
+
+                    #greedy search algorithm
+                    self.solution_node = self.game_AI.greedy_search(self.tiles_grid, self.tiles_grid_completed)
+                    # for moves in self.path:       #this was for visited, which doesn't work
+                    #     print("next move is ")
+                    #     self.game_AI.print_board(moves)
+                    #redraw tiles...?
+
+                if event.unicode == "s" and self.path is not None:
+                    while(self.solution_node is not None):
+                        self.path.append(self.solution_node.key)
+                        self.solution_node = self.solution_node.parent
+                        print("\n")
+                    self.tiles_grid = self.path.pop()
+                    self.draw_tiles()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print("mouse")
